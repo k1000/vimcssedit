@@ -1,0 +1,18 @@
+{
+  "name": "VimCssEdit",
+  "description": "Edits page css in vim",
+  "version": "0.1",
+  "permissions": [
+    "tabs",
+    "http://127.0.0.1/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background_page": "background.html",
+  "icons": { "128": "vim23-128x128.png" },
+  "all frames": true,
+  "browser_action": {
+    "default_icon": "vim23-128x128.png",
+    "default_title": "Css Edit"   
+  }
+}

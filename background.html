@@ -1,0 +1,41 @@
+<html>
+<head>
+<script>
+function urlEncode(arr){
+    var a = []
+    for (i in arr){
+        a.push(i+"="+encodeURIComponent(arr[i]))
+    }
+    return a.join("&")
+}
+var urlPrefix = "http://127.0.0.1:9292/"
+
+  // Called when the user clicks on the browser action.
+  chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.executeScript(tab.id, {file: "update.js", allFrames: false});
+  });
+
+  chrome.extension.onConnect.addListener(function(port) {
+    port.onMessage.addListener(function(text) {
+      var xhr = new XMLHttpRequest();
+        
+      var url = urlPrefix + text.origin;
+      /*url = url + text.id;*/
+      xhr.open("POST", url, true);
+      xhr.onreadystatechange = function() {
+        console.log("State change!");
+        if(xhr.readyState == 4 && xhr.status == 200) {
+           port.postMessage({origin: text.origin, text: xhr.responseText});
+        }
+      }
+        xhr.setRequestHeader("Content-type", "text/plain");
+        query = urlEncode(text)
+        //console.log(text)
+      xhr.send( query );
+    });
+  });
+
+
+</script>
+</head>
+</html>
